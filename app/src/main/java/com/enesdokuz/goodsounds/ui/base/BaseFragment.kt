@@ -7,5 +7,4 @@ abstract class BaseFragment : Fragment() {
 
     abstract fun initUI()
     abstract fun observeLiveData()
-    abstract fun initController()
 }

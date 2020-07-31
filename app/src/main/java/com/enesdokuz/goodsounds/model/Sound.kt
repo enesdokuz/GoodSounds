@@ -11,16 +11,17 @@ data class Sound(
     val name: String,
     @SerializedName("source")
     val source: String,
+    @PrimaryKey
     @SerializedName("id")
     val id: String,
     @SerializedName("link")
     val link: String,
     @SerializedName("categoryId")
-    val categoryId: Int,
+    val categoryId: String,
     @SerializedName("isFavorite")
-    val isFavorite: Boolean
-) : Serializable{
-
-    @PrimaryKey(autoGenerate = true)
-    var uuid: Int = 0
-}
+    var isFavorite: Boolean = false,
+    @SerializedName("isPlaying")
+    var isPlaying: Boolean = false,
+    @SerializedName("volume")
+    var volume: Float = 0.5f
+) : Serializable

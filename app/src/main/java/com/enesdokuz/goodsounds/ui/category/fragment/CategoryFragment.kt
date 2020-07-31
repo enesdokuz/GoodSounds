@@ -4,24 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.enesdokuz.goodsounds.R
 import com.enesdokuz.goodsounds.ui.base.BaseFragment
 import com.enesdokuz.goodsounds.ui.category.adapter.CategoryAdapter
+import com.enesdokuz.goodsounds.ui.category.listener.CategoryListener
 import com.enesdokuz.goodsounds.ui.category.viewmodel.CategoryViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_category.*
 
-class CategoryFragment : BaseFragment() {
+class CategoryFragment : BaseFragment(), CategoryListener {
 
     companion object {
         fun newInstance() = CategoryFragment()
     }
 
     private val viewModel: CategoryViewModel by activityViewModels()
-    private val categoryAdapter = CategoryAdapter(arrayListOf())
+    private val categoryAdapter = CategoryAdapter(arrayListOf(), this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +39,6 @@ class CategoryFragment : BaseFragment() {
 
         initUI()
         observeLiveData()
-        initController()
         viewModel.getCategories()
     }
 
@@ -75,5 +77,8 @@ class CategoryFragment : BaseFragment() {
         })
     }
 
-    override fun initController() {}
+    override fun onClickedItem(categoryId: String) {
+        val bundle = bundleOf("categoryId" to categoryId)
+        findNavController().navigate(R.id.action_categoryFragment_to_soundsFragment, bundle)
+    }
 }

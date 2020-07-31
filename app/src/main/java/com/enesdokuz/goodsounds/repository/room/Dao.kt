@@ -13,8 +13,8 @@ interface Dao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSounds(vararg sounds: Sound) : List<Long>
 
-    @Query("SELECT * FROM Sound")
-    suspend fun getSounds(): List<Sound>
+    @Query("SELECT * FROM Sound WHERE categoryId = :categoryId")
+    suspend fun getSounds(categoryId: String): List<Sound>
 
     @Query("DELETE FROM Sound")
     suspend fun deleteSounds()
@@ -29,5 +29,11 @@ interface Dao {
     suspend fun deleteCategories()
 
     @Query("UPDATE Sound SET isFavorite = :isFavorite WHERE id = :id")
-    suspend fun updateSound(id: String, isFavorite: Boolean)
+    suspend fun updateSoundFav(id: String, isFavorite: Boolean)
+
+    @Query("UPDATE Sound SET volume = :volume WHERE id = :id")
+    suspend fun updateSoundVolume(id: String, volume: Float)
+
+    @Query("SELECT * FROM Sound WHERE isFavorite = 1")
+    suspend fun getMyFavorites(): List<Sound>
 }

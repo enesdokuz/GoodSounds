@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rlMainCategory"
+    android:id="@+id/rlMainFavorite"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/notFoundFavorite"
+        android:textSize="20sp" />
+
     <ProgressBar
-        android:id="@+id/progressCategory"
+        android:id="@+id/progressFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerCategory"
+        android:id="@+id/recyclerFavorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_category"/>
+        tools:listitem="@layout/item_sound" />
 
 </RelativeLayout>

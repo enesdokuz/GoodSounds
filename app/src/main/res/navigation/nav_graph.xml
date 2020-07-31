@@ -7,15 +7,32 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.enesdokuz.goodsounds.ui.splash.SplashFragment"
-        android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        android:name="com.enesdokuz.goodsounds.ui.splash.fragment.SplashFragment"
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_categoryFragment"
-            app:destination="@id/categoryFragment" />
+            app:destination="@id/categoryFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
-        android:name="com.enesdokuz.goodsounds.ui.category.fragment.CategoryFragment"
-        android:label="CategoryFragment" />
+        android:name="com.enesdokuz.goodsounds.ui.category.fragment.CategoryFragment">
+        <action
+            android:id="@+id/action_categoryFragment_to_soundsFragment"
+            app:destination="@id/soundsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/soundsFragment"
+        android:name="com.enesdokuz.goodsounds.ui.sound.fragment.SoundsFragment"
+        tools:layout="@layout/fragment_sounds">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.enesdokuz.goodsounds.ui.favorite.fragment.FavoriteFragment"
+        tools:layout="@layout/fragment_favorite" />
 </navigation>

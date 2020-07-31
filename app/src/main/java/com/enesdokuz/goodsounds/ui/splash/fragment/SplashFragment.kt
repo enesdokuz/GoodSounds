@@ -1,21 +1,24 @@
-package com.enesdokuz.goodsounds.ui.splash
+package com.enesdokuz.goodsounds.ui.splash.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.enesdokuz.goodsounds.R
-import com.enesdokuz.goodsounds.ui.base.BaseFragment
 import java.util.*
 import kotlin.concurrent.schedule
 
 class SplashFragment : Fragment() {
 
     companion object {
-        fun newInstance() = SplashFragment()
+        fun newInstance() =
+            SplashFragment()
     }
+
+    private val mHandler = Handler()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +32,9 @@ class SplashFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         Timer().schedule(2000) {
-            openHome()
+            mHandler.post {
+                openHome()
+            }
         }
     }
 

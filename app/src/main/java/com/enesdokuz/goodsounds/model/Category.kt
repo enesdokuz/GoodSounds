@@ -11,10 +11,7 @@ data class Category (
     val name: String,
     @SerializedName("image")
     val image: String,
+    @PrimaryKey
     @SerializedName("id")
     val id: String
-) : Serializable {
-
-    @PrimaryKey(autoGenerate = true)
-    var uuid: Int = 0
-}
+) : Serializable

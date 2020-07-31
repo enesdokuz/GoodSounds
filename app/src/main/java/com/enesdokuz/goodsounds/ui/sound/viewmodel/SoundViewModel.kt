@@ -1,45 +1,45 @@
-package com.enesdokuz.goodsounds.ui.category.viewmodel
+package com.enesdokuz.goodsounds.ui.sound.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.enesdokuz.goodsounds.model.Category
-import com.enesdokuz.goodsounds.repository.retrofit.Service
-import com.enesdokuz.goodsounds.repository.room.MyDatabase
+import com.enesdokuz.goodsounds.model.Sound
 import com.enesdokuz.goodsounds.ui.base.BaseViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 
-class CategoryViewModel(application: Application) : BaseViewModel(application) {
+class SoundViewModel(application: Application) : BaseViewModel(application) {
 
-    val categories = MutableLiveData<List<Category>>()
+    val categoryId = MutableLiveData<String>()
+    val sounds = MutableLiveData<List<Sound>>()
     val isLoading = MutableLiveData<Boolean>()
     val errorMessage = MutableLiveData<String>()
 
-    fun getCategories() {
+    fun getSounds() {
         showLoading()
-        getCategoriesFromRoom()
-    }
-
-    private fun getCategoriesFromRoom() {
-        launch {
-            categories.value = dao.getCategories()
-            hideLoading()
+        categoryId.value?.let {
+            getSoundsFromRoom(it)
         }
-        if (categories.value.isNullOrEmpty())
-            getCategoriesFromRetrofit()
     }
 
-    private fun getCategoriesFromRetrofit() {
+    private fun getSoundsFromRoom(categoryId: String) {
+        launch {
+            sounds.value = dao.getSounds(categoryId = categoryId)
+        }
+        if (sounds.value.isNullOrEmpty()) {
+            getSoundsFromRetrofit()
+        }
+    }
+
+    private fun getSoundsFromRetrofit() {
         disposable.add(
-            service.getCategories()
+            service.getSounds()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    result?.let {
-                        categories.value = it
-                        saveCategoriesToRoom(it)
+                    result?.let { it ->
+                        saveSoundsToRoom(it)
+                        sounds.value = it.filter { it.categoryId == categoryId.value }
                         hideLoading()
                     }
                 }, { error ->
@@ -52,15 +52,23 @@ class CategoryViewModel(application: Application) : BaseViewModel(application) {
         )
     }
 
-    private fun saveCategoriesToRoom(values: List<Category>) {
+    fun setFavorite(soundId: String, isFavorite: Boolean) {
         launch {
-            dao.deleteCategories()
-        }
-        launch {
-            dao.insertCategories(*values.toTypedArray())
+            dao.updateSoundFav(id = soundId, isFavorite = isFavorite)
         }
     }
 
+    fun setSoundVolume(soundId: String, volume: Float) {
+        launch {
+            dao.updateSoundVolume(id = soundId, volume = volume)
+        }
+    }
+
+    private fun saveSoundsToRoom(list: List<Sound>) {
+        launch {
+            dao.insertSounds(*list.toTypedArray())
+        }
+    }
 
     private fun showError(errorMessage: String) {
         isLoading.value = false

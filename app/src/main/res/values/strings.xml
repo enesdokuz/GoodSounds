@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Good Sounds</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="tryAgain">Try Again</string>
+    <string name="menuFavorite">Favorite</string>
+    <string name="menuCategories">Categories</string>
+    <string name="notFoundFavorite">Not Found Favorite Sounds</string>
 </resources>
